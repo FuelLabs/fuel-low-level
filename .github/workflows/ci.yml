@@ -11,6 +11,7 @@ on:
 env:
   CARGO_TERM_COLOR: always
 <<<<<<< HEAD
+<<<<<<< HEAD
   RUSTFLAGS: -D warnings -D clippy::dbg_macro
 =======
 >>>>>>> fuel-types/master
@@ -144,6 +145,10 @@ jobs:
       - cargo-verifications
       s
 jobs:
+=======
+
+jobs:
+>>>>>>> fuel-vm/master
   build:
     runs-on: ubuntu-latest
 
@@ -151,9 +156,12 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
+<<<<<<< HEAD
     - name: Rust Caching
       uses: Swatinem/rust-cache@v1
 
+=======
+>>>>>>> fuel-vm/master
     - name: Install toolchain
       uses: actions-rs/toolchain@v1
       with:
@@ -161,6 +169,7 @@ jobs:
         toolchain: stable
         override: true
 
+<<<<<<< HEAD
     - name: Install Cargo.toml linter
       uses: baptiste0928/cargo-install@v1
       with:
@@ -187,6 +196,8 @@ jobs:
     - name: Run Cargo.toml linter
       run:  git ls-files | grep Cargo.toml$ | xargs --verbose -n 1 cargo-toml-lint
 
+=======
+>>>>>>> fuel-vm/master
     - name: Install rustfmt
       run: rustup component add rustfmt
 
@@ -196,6 +207,7 @@ jobs:
         command: fmt
         args: --all --verbose -- --check
 
+<<<<<<< HEAD
     - name: Install clippy
       run: rustup component add clippy
 
@@ -205,12 +217,15 @@ jobs:
         command: clippy
         args: --all-features --all-targets -- -D warnings -D clippy::dbg_macro
 
+=======
+>>>>>>> fuel-vm/master
     - name: Build
       uses: actions-rs/cargo@v1
       with:
         command: build
         args: --verbose
 
+<<<<<<< HEAD
     - name: Build no-std
       uses: actions-rs/cargo@v1
       with:
@@ -225,11 +240,21 @@ jobs:
 
     - name: Run tests
     - name: Test
+=======
+    - name: Run clippy checks
+      uses: actions-rs/cargo@v1
+      with:
+        command: clippy
+        args: --all-targets --all-features
+
+    - name: Run basic tests
+>>>>>>> fuel-vm/master
       uses: actions-rs/cargo@v1
       with:
         command: test
         args: --verbose
 
+<<<<<<< HEAD
     - name: Run tests no-std
       uses: actions-rs/cargo@v1
       with:
@@ -237,11 +262,39 @@ jobs:
         args: --verbose --no-default-features
 
     - name: Run serde tests
+=======
+    - name: Run all tests
+      uses: actions-rs/cargo@v1
+      with:
+        command: test
+        args: --verbose --all-features
+
+    - name: Run tests random
+      uses: actions-rs/cargo@v1
+      with:
+        command: test
+        args: --verbose --features random
+
+    - name: Run tests profiling
+      uses: actions-rs/cargo@v1
+      with:
+        command: test
+        args: --verbose --features random,profile-gas,profile-coverage,serde
+
+    - name: Run debug tests
+      uses: actions-rs/cargo@v1
+      with:
+        command: test
+        args: --verbose --features debug
+
+    - name: Run tests serde
+>>>>>>> fuel-vm/master
       uses: actions-rs/cargo@v1
       with:
         command: test
         args: --verbose --features serde
 
+<<<<<<< HEAD
     - name: Run serde tests no-std
       uses: actions-rs/cargo@v1
       with:
@@ -261,6 +314,11 @@ jobs:
     # Only do this job if publishing a release
     needs: cargo-verifications
 >>>>>>> fuel-types/master
+=======
+  publish:
+    # Only do this job if publishing a release
+    needs: build
+>>>>>>> fuel-vm/master
     if: github.event_name == 'release' && github.event.action == 'published'
     runs-on: ubuntu-latest
 
@@ -277,11 +335,16 @@ jobs:
       - name: Verify tag version
         run: |
 <<<<<<< HEAD
+<<<<<<< HEAD
           curl -sSLf "https://github.com/TomWright/dasel/releases/download/v1.24.3/dasel_linux_amd64" -L -o dasel && chmod +x dasel
           mv ./dasel /usr/local/bin/dasel
 =======
 >>>>>>> fuel-types/master
           cargo install toml-cli
+=======
+          curl -sSLf "https://github.com/TomWright/dasel/releases/download/v1.24.3/dasel_linux_amd64" -L -o dasel && chmod +x dasel
+          mv ./dasel /usr/local/bin/dasel
+>>>>>>> fuel-vm/master
           ./.github/workflows/scripts/verify_tag.sh ${{ github.ref_name }} Cargo.toml
 
       - name: Publish crate

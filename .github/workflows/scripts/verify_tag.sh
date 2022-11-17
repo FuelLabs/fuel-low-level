@@ -27,6 +27,7 @@ fi
 REF=${REF/#v}
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 TOML_VERSION=$(cat $MANIFEST | dasel -r toml 'package.version')
 =======
 TOML_VERSION=$(toml get $MANIFEST package.version | tr -d '"')
@@ -34,6 +35,9 @@ TOML_VERSION=$(toml get $MANIFEST package.version | tr -d '"')
 =======
 TOML_VERSION=$(toml get $MANIFEST package.version | tr -d '"')
 >>>>>>> fuel-types/master
+=======
+TOML_VERSION=$(cat $MANIFEST | dasel -r toml 'package.version')
+>>>>>>> fuel-vm/master
 
 if [ "$TOML_VERSION" != "$REF" ]; then
     err "Crate version $TOML_VERSION, doesn't match tag version $REF"
