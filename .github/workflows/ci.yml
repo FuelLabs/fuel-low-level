@@ -10,7 +10,6 @@ on:
 
 env:
   CARGO_TERM_COLOR: always
-<<<<<<< HEAD
   RUSTFLAGS: -D warnings -D clippy::dbg_macro
 
 jobs:
@@ -91,8 +90,7 @@ jobs:
     # Only do this job if publishing a release
     needs:
       - cargo-verifications
-=======
-
+      s
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -110,6 +108,12 @@ jobs:
         profile: minimal
         toolchain: stable
         override: true
+
+    - name: Install Cargo.toml linter
+      uses: baptiste0928/cargo-install@v1
+      with:
+        crate: cargo-toml-lint
+        version: "0.1"
 
     # Using thumbv6m-none-eabi as ARMv6-M arbitrary common choice for a bare-minimum target.
     # More info: https://docs.rs/cortex-m-rt/latest/cortex_m_rt/
@@ -168,6 +172,7 @@ jobs:
         args: --verbose --target thumbv6m-none-eabi --no-default-features --features serde
 
     - name: Run tests
+    - name: Test
       uses: actions-rs/cargo@v1
       with:
         command: test
@@ -194,7 +199,11 @@ jobs:
   publish:
     # Only do this job if publishing a release
     needs: build
->>>>>>> fuel-asm/master
+
+  publish:
+    # Only do this job if publishing a release
+    needs: build
+>>>>>>> fuel-storage/master
     if: github.event_name == 'release' && github.event.action == 'published'
     runs-on: ubuntu-latest
 
@@ -212,6 +221,7 @@ jobs:
         run: |
           curl -sSLf "https://github.com/TomWright/dasel/releases/download/v1.24.3/dasel_linux_amd64" -L -o dasel && chmod +x dasel
           mv ./dasel /usr/local/bin/dasel
+          cargo install toml-cli
           ./.github/workflows/scripts/verify_tag.sh ${{ github.ref_name }} Cargo.toml
 
       - name: Publish crate

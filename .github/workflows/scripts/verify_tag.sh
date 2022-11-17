@@ -25,7 +25,11 @@ fi
 
 # strip preceeding 'v' if it exists on tag
 REF=${REF/#v}
+<<<<<<< HEAD
 TOML_VERSION=$(cat $MANIFEST | dasel -r toml 'package.version')
+=======
+TOML_VERSION=$(toml get $MANIFEST package.version | tr -d '"')
+>>>>>>> fuel-storage/master
 
 if [ "$TOML_VERSION" != "$REF" ]; then
     err "Crate version $TOML_VERSION, doesn't match tag version $REF"
